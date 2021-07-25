@@ -62,7 +62,7 @@ public class Mapper {
     public static Function<String, Stops> mapLineToStop = line -> {
         List<String> stopsFields = Splitter.on ( "," ).trimResults ()
                 .omitEmptyStrings ().splitToList ( line );
-        Stops stop = new Stops ( Long.valueOf ( stopsFields.get ( 0 ) ), stopsFields.get ( 1 ), stopsFields.get ( 2 ), stopsFields.get ( 3 ) );
+        Stops stop = new Stops ( Long.valueOf ( stopsFields.get ( 0 ) ), stopsFields.get ( 1 ), Double.valueOf ( stopsFields.get ( 2 ) ), Double.valueOf ( stopsFields.get ( 3 ) ) );
         return stop;
     };
 
