@@ -31,6 +31,15 @@ public class ImportTask {
     @Value("${targetDir.importFiles}")
     private String targetDirImportFiles;
 
+    @Value("${geolocation.data.file.stops}")
+    private String geolocationDataFileStops;
+
+    @Value("${geolocation.data.file.trips}")
+    private String geolocationDataFileTrips;
+
+    @Value("${geolocation.data.file.stopTimes}")
+    private String geolocationDataFileStopTimes;
+
     private StopsRepository stopsRepository;
 
     public ImportTask(StopsRepository stopsRepository) {
@@ -54,9 +63,9 @@ public class ImportTask {
     }
 
     public List<Stops> processFiles() throws IOException {
-        String stopsFile = targetDirImportFiles + "stops.txt";
-        String tripsFile = targetDirImportFiles + "trips.txt";
-        String stopTimesFile = targetDirImportFiles + "stop_times.txt";
+        String stopsFile = targetDirImportFiles + geolocationDataFileStops;
+        String tripsFile = targetDirImportFiles + geolocationDataFileTrips;
+        String stopTimesFile = targetDirImportFiles +geolocationDataFileStopTimes;
 
         List<Stops> stops = Files.lines ( Paths.get ( stopsFile ) ).skip ( 1 ).map ( Mapper.mapLineToStop ).collect ( Collectors.toList () );
         List<Trips> trips = Files.lines ( Paths.get ( tripsFile ) ).skip ( 1 ).map ( Mapper.mapLineToTrips ).collect ( Collectors.toList () );
