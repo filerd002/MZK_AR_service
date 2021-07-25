@@ -3,6 +3,7 @@ package utp.edu.mzkar.service.task;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import utp.edu.mzkar.service.Utils.ZipUtils;
 import utp.edu.mzkar.service.mapper.Mapper;
@@ -20,7 +21,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 @Transactional
 public class ImportTask {
 
