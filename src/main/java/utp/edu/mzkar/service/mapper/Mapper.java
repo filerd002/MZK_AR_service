@@ -6,6 +6,8 @@ import utp.edu.mzkar.service.model.Stops;
 import utp.edu.mzkar.service.model.Trips;
 import utp.edu.mzkar.service.model.emums.Period;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -31,7 +33,7 @@ public class Mapper {
                                     } );
                         } )
                         .collect ( Collectors.toList () )
-                        .stream ().filter ( trips1 -> trips1.getPeriod ().equals ( Period.POWSZEDNI ) && stop.getTrips ()
+                        .stream ().filter ( trips1 -> trips1.getPeriod ().equals ( currentPeriod()) && stop.getTrips ()
                                 .stream ().filter ( trips2 -> (trips1.getRouteID ().equals ( trips2.getRouteID () )
                                         && trips1.getPeriod ().equals ( trips2.getPeriod () )) )
                                 .collect ( Collectors.toList () ).isEmpty ()
@@ -42,6 +44,20 @@ public class Mapper {
         } );
 
         return stops;
+    }
+
+
+    private static Period currentPeriod() {
+        LocalDate now = LocalDate.now ();
+        if ( DayOfWeek.SATURDAY.equals ( now.getDayOfWeek () ) ) {
+            return Period.SOBOTA;
+        } else if ( DayOfWeek.SUNDAY.equals ( now.getDayOfWeek () ) ) {
+            return Period.NIEDZIELA;
+        } else if ( now.isAfter ( LocalDate.of ( now.getYear (), 7, 1 ) ) && now.isBefore ( LocalDate.of ( now.getYear (), 8, 31 ) ) ) {
+            return Period.FERIE;
+        } else {
+            return Period.POWSZEDNI;
+        }
     }
 
 
