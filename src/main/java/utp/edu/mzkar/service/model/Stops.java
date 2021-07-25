@@ -1,17 +1,20 @@
 package utp.edu.mzkar.service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name="stops")
+@NoArgsConstructor
+@Table(name = "stops")
 public class Stops {
 
-    public Stops(Long stopID, String stopName, String stopLat, String stopLon) {
+    public Stops(Long stopID, String stopName, Double stopLat, Double stopLon) {
         this.stopID = stopID;
         this.stopName = stopName;
         this.stopLat = stopLat;
@@ -31,20 +34,19 @@ public class Stops {
     private String stopName;
 
     @Column(name = "stop_lat")
-    private String stopLat;
+    private Double stopLat;
 
     @Column(name = "stop_lon")
-    private String stopLon;
+    private Double stopLon;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "stops_trips",
+            joinColumns = @JoinColumn(name = "stops_id"),
+            inverseJoinColumns = @JoinColumn(name = "trips_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"stops_id", "trips_id"})})
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "stops_trips",
-            joinColumns = { @JoinColumn(name = "stops_id") },
-            inverseJoinColumns = { @JoinColumn(name = "trips_id") }
-    )
-    Set<Trips> trips = new  HashSet<> ();
-
+    @JsonIgnoreProperties("stops")
+    List<Trips> trips = new ArrayList<> ();
 
 
 }

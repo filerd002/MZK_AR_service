@@ -1,9 +1,15 @@
 package utp.edu.mzkar.service.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import utp.edu.mzkar.service.model.Stops;
 
-@Repository
-public interface StopsRepository extends JpaRepository<Stops, Long> {
+import java.util.List;
+
+@RepositoryRestResource(collectionResourceRel = "stops", path = "stops")
+public interface StopsRepository extends PagingAndSortingRepository<Stops, Long> {
+
+    List<Stops> findByStopLatBetweenAndStopLonBetween(@Param("stopLatLeft") Double stopLatLeft, @Param("stopLatRight") Double stopLatRight, @Param("stopLonDown") Double stopLonDown,  @Param("stopLonUp") Double stopLonUp);
+
 }
