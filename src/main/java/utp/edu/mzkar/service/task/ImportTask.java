@@ -11,6 +11,7 @@ import utp.edu.mzkar.service.model.StopTimes;
 import utp.edu.mzkar.service.model.Stops;
 import utp.edu.mzkar.service.model.Trips;
 import utp.edu.mzkar.service.repository.StopsRepository;
+import utp.edu.mzkar.service.repository.TripsRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,8 +43,11 @@ public class ImportTask {
 
     private StopsRepository stopsRepository;
 
-    public ImportTask(StopsRepository stopsRepository) {
+    private TripsRepository tripsRepository;
+
+    public ImportTask(StopsRepository stopsRepository, TripsRepository tripsRepository) {
         this.stopsRepository = stopsRepository;
+        this.tripsRepository = tripsRepository;
     }
 
     @Transactional
@@ -52,6 +56,7 @@ public class ImportTask {
         try {
             ZipUtils.downloadArchive ( new URL ( geolocationDataImportURL ), new File ( targetDirImportFiles ) );
             stopsRepository.deleteAll ();
+            tripsRepository.deleteAll ();
             stopsRepository.saveAll ( processFiles () );
         } catch (MalformedURLException e) {
             e.printStackTrace ();
