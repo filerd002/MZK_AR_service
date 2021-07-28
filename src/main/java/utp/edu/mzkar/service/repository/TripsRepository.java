@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import utp.edu.mzkar.service.model.Trips;
 
 
-@RepositoryRestResource(collectionResourceRel = "trips", path = "trips")
+@RepositoryRestResource(exported = false)
 public interface TripsRepository extends PagingAndSortingRepository<Trips, Long> {
 
     @Modifying
