@@ -15,9 +15,10 @@ import java.util.List;
 @Table(name = "trips")
 public class Trips {
 
-    public Trips(String routeID, String tripID) {
+    public Trips(String routeID, String tripID, String direction) {
         this.routeID = routeID;
         this.tripID = tripID;
+        this.direction = direction;
     }
 
     @Id
@@ -34,6 +35,9 @@ public class Trips {
     @Column(name = "period")
     @Enumerated(EnumType.STRING)
     private Period period;
+
+    @Column(name = "direction")
+    private String direction;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "stops_trips",

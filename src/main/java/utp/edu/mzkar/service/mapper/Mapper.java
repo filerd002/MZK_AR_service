@@ -34,7 +34,7 @@ public class Mapper {
                         .stream ().filter ( trips1 -> trips1.getPeriod ().equals ( Period.currentPeriod()) && stop.getTrips ()
                                 .stream ().filter ( trips2 -> (trips1.getRouteID ().equals ( trips2.getRouteID () )
                                         && trips1.getPeriod ().equals ( trips2.getPeriod () )) )
-                                .collect ( Collectors.toList () ).isEmpty ()
+                                .collect ( Collectors.toList () ).isEmpty () && !stop.getStopName ().equals ( trips1.getDirection ())
                         )
                         .collect ( Collectors.toList () )
                 );
@@ -51,7 +51,7 @@ public class Mapper {
     public static Function<String, Trips> mapLineToTrips = line -> {
         List<String> tripFields = Splitter.on ( "," ).trimResults ()
                 .omitEmptyStrings ().splitToList ( line );
-        Trips trips = new Trips ( tripFields.get ( 0 ), tripFields.get ( 2 ) );
+        Trips trips = new Trips ( tripFields.get ( 0 ), tripFields.get ( 2 ), tripFields.get ( 3 ) );
         return trips;
     };
 
